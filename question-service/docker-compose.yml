@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  localhost:
+    image: user-service
+    ports:
+      - "8081:3001"
+    networks:
+      - peerprep_default  # Connect to the same network as question-service
+
+  question-service:
+    image: question-service
+    ports:
+      - "8080:3002"
+    depends_on:
+      - localhost  # Ensure user-service is started first
+    networks:
+      - peerprep_default  # Connect to the same network as localhost
+
+networks:
+  peerprep_default:
+    external: true

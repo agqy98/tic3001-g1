@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { ormFindUserByEmail } from "../model/user-orm.js";
 
 export async function handleLogin(req, res) {
+  const { test } = req.query;
   const { email, password } = req.body;
   if (email && password) {
     try {
