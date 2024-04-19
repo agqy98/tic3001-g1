@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"  # RabbitMQ default port
+      - "15672:15672"  # RabbitMQ management UI port
+    networks:
+      - peerprep_default  # Connect to the same network as question-service
+
+  matching-service:
+    image: matching-service
+    ports:
+      - "8083:3003"
+    depends_on:
+      - rabbitmq  # Ensure user-service is started first
+    networks:
+      - peerprep_default  # Connect to the same network as localhost
+
+networks:
+  peerprep_default:
+    external: true

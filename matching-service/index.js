@@ -29,7 +29,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/match", matchRoutes);
+app.use("/start", matchRoutes);
 
 app.get("/", (req, res, next) => {
   console.log("Sending Greetings!");
@@ -52,6 +52,11 @@ app.use((error, req, res, next) => {
       message: error.message,
     },
   });
+});
+
+const PORT = process.env.PORT || 3003; // Use the provided port or default to 3000
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 export default app;

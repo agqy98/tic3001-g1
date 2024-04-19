@@ -1,10 +1,13 @@
-const express = require('express');
+import express from "express";
+
+import { startReceivingLogs, stopReceivingLogs, listen } from "../controllers/match-controller.js";
+
 const router = express.Router();
-const matchController = require('../controllers/match-controller');
 
-router.post('/init', matchController.matchUsers);
+router.post('/receive', startReceivingLogs);
 
-// Route to check match status
-router.get('/status', matchController.checkMatchStatus);
+router.post('/stop', stopReceivingLogs);
 
-module.exports = router;
+router.post('/listen', listen);
+
+export default router;

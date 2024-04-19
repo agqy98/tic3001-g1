@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  question-service:
+    image: question-service:latest
+    ports:
+      - "8080:3002"
+    depends_on:
+      - user-service
+
+  user-service:
+    image: user-service:latest
+    ports:
+      - "8081:3001"
+
+  matching-service:
+    image: matching-service:latest
+    ports:
+      - "8083:3003"
+    depends_on:
+      - rabbitmq
+    networks:
+      - messaging_network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"  # RabbitMQ default port
+      - "15672:15672"  # RabbitMQ management UI port
+    networks:
+      - messaging_network
+
+  collaboration-service:
+    image: collaboration-service:latest
+    ports:
+      - "8084:3004"
+    networks:
+      - messaging_network
+
+  peerprep-g01:
+    image: peerprep-g01:latest
+    ports:
+      - "8082:80"
+    depends_on:
+      - user-service
+      - question-service
+      - matching-service
+      - collaboration-service
+    networks:
+      - messaging_network
+
+networks:
+  messaging_network:
+  

@@ -12,14 +12,18 @@
 ### Complete User Service Guide: [User Service Guide](./user-service/README.md)
 
 ## Docker (All in root directory)
-docker build -t question-service:latest "path/to/question-service"
+docker build -t question-service:latest "./question-service"
 docker run -d -p 8080:3002 question-service
 
-docker build -t user-service:latest "path/to/user-service"
+docker build -t user-service:latest "./user-service"
 docker run -d -p 8081:3001 user-service
 
-docker build -t peerprep-g01:latest "path/to/peerprep-g01"
+docker build -t peerprep-g01:latest "./peerprep-g01"
 docker run -d -p 8082:80 peerprep-g01
+
+docker build -t matching-service:latest "./matching-service"
+docker run -d -p 8083:3003 matching-service
+
 
 
 # ensure containers are connect to network
