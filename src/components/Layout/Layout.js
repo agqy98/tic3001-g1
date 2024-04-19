@@ -96,7 +96,7 @@ function AppAppBar({ user, mode, toggleColorMode, children, setIsLoggedIn, timer
               </h3>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem
-                  component={Link} to="/"
+                  component={Link} to="/home"
                   sx={{ py: '6px', px: '12px' }}
                 >
                   <Typography variant="body2" color="text.primary">
@@ -176,7 +176,7 @@ function AppAppBar({ user, mode, toggleColorMode, children, setIsLoggedIn, timer
                     }}
                   >
                   </Box>
-                  <MenuItem component={Link} to="/">
+                  <MenuItem component={Link} to="/home">
                     Questions
                   </MenuItem>
                   <MenuItem component={Link} to="/question/0">

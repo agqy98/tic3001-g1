@@ -14,6 +14,7 @@ const UserService = {
     }
   },
   getUser: async (token, email) => {
+    console.log(`Calling ${API_URL}/${email}`)
     try {
       const response = await axios.get(`${API_URL}/${email}`, {
         // data: { email: email },

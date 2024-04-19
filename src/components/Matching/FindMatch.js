@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+
 import {
     Button, Select, FormControl, InputLabel,
     Typography, MenuItem, Grid,
     Box, LinearProgress
 } from '@mui/material';
 import { Categories, Complexities } from '../../models/Parameters';
+import MatchService from '../../services/MatchService';
+
 
 function LinearProgressWithLabel(props) {
     return (
@@ -23,15 +25,7 @@ function LinearProgressWithLabel(props) {
     );
 }
 
-// LinearProgressWithLabel.propTypes = {
-//     /**
-//      * The value of the progress indicator for the determinate and buffer variants.
-//      * Value between 0 and 100.
-//      */
-//     value: PropTypes.number.isRequired,
-// };
-
-export default function FindMatch({ token, timerRun, progress, startTimer, cancelTimer }) {
+export default function FindMatch({ user, token, timerRun, progress, startTimer, cancelTimer }) {
 
     // State to store form inputs
     const [formData, setFormData] = useState({
@@ -56,17 +50,33 @@ export default function FindMatch({ token, timerRun, progress, startTimer, cance
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        startTimer();
+        if (formData.category == "") {
+            return;
+        }
 
-        // Send questionData to backend (e.g., via API)
-        // const res = await QuestionService.createQuestion(token, questionData);
-        // const isSuccessful = res.message && (res.message.indexOf("successfully") != -1);
-        // if (isSuccessful) {
-        //     alert(res.message);
-        //     navigate('/', { replace: true });
-        // } else {
-        //     alert(res.message);
-        // }
+        var reqBody = {
+            topic: formData.category,
+            msg: user.username
+        }
+        await MatchService.startReceive(token, reqBody)
+            .then(response => {
+                console.log('Request to start receiving logs was successful:', response);
+                // Check if the response status code indicates success
+                if (response.message === 'Receiving logs started successfully.') {
+                    // Request was successful, handle accordingly
+                    startTimer(formData.category);
+                } else {
+                    // Request failed, handle accordingly
+                    console.error('Request to start receiving logs failed:', response);
+                    alert("Matching service is down")
+                }
+
+            })
+            .catch(error => {
+                // Request failed, handle accordingly
+                console.error('Error starting to receive logs:', error);
+                alert("An error has occured")
+            });
     };
     return (
         <Grid container>
@@ -74,7 +84,7 @@ export default function FindMatch({ token, timerRun, progress, startTimer, cance
                 <Typography variant="h4" gutterBottom>
                     Find a match
                 </Typography>
-                <Box sx={{ width: '100%' }} className="mb-3" hidden={timerRun == false}>
+                <Box sx={{ width: '100%' }} className="mb-3" hidden={timerRun != true}>
                     <LinearProgressWithLabel value={progress} />
                 </Box>
                 <form onSubmit={handleSubmit}>
@@ -125,9 +135,9 @@ export default function FindMatch({ token, timerRun, progress, startTimer, cance
                                     Cancel
                                 </Button>
                                 : */}
-                                <Button component={Link} variant='outlined' to="/">
-                                    Back
-                                </Button>
+                        <Button component={Link} variant='outlined' to="/">
+                            Back
+                        </Button>
                         {/* } */}
                     </div>
                 </form>

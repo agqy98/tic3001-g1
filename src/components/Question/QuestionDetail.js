@@ -92,7 +92,7 @@ export default function QuestionDetail({ token }) {
       const isSuccessful = res.message && (res.message.indexOf("successfully") != -1);
       if (isSuccessful) {
         alert(res.message);
-        navigate('/', { replace: true });
+        navigate('/home', { replace: true });
       } else {
         alert(res.message);
       }
@@ -103,7 +103,7 @@ export default function QuestionDetail({ token }) {
       if (isSuccessful) {
         console.log(res)
         alert(res.message);
-        navigate('/', { replace: true });
+        navigate('/home', { replace: true });
       } else {
         alert(res.message);
       }
@@ -218,7 +218,7 @@ export default function QuestionDetail({ token }) {
               }
             </Button>
             {' '}
-            <Button component={Link} variant='outlined' to="/">
+            <Button component={Link} variant='outlined' to="/home">
               Back
             </Button>
           </div>

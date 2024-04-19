@@ -1,9 +1,0 @@
-version: "3.8"
-
-services:
-  peerprep-g01: 
-    image: peerprep-g01
-    build:
-      context: .
-    ports:
-      - 8082:80

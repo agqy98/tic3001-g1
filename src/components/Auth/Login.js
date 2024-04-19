@@ -40,9 +40,9 @@ export default function Login({ setIsLoggedIn, setAccessCode, setEmail }) {
             setIsLoggedIn(true);
             setEmail(formData.email)
             setAccessCode(res.accessToken)
-            navigate('/', { replace: true });
+            navigate('/home', { replace: true });
         } else {
-            alert(res.response.data.message);
+            alert(res?.response?.data?.message || res?.message)
         }
     };
 
